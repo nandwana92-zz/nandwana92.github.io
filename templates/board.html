@@ -1,0 +1,40 @@
+<button ng-click="$ctrl.rollDice()">roll dice</button>
+<button ng-click="$ctrl.gtgs()">go to game select</button>
+<span>current dice value: {{$ctrl.value}}</span>
+<span id="{{$ctrl.players[$ctrl.activePlayerIndex].id}}">active player: {{$ctrl.players[$ctrl.activePlayerIndex].username}}</span>
+<div layout>
+  <div class="board-container">
+    <div ng-repeat="(y, item) in $ctrl.getTimes($ctrl.size.r) track by $index" layout>
+      <div style="position: relative;" ng-class="{'snake-cell': $ctrl.checkIfSnake((x + 1) + y * 10), 'ladder-cell': $ctrl.checkIfLadder((x + 1) + y * 10)}" class="board-cell" ng-repeat="(x, item) in $ctrl.getTimes($ctrl.size.c) track by $index">
+        <img ng-show="$ctrl.checkIfSnake((x + 1) + y * 10)" class="cell-bg" src="images/snake.svg">
+        <img ng-show="$ctrl.checkIfLadder((x + 1) + y * 10)" class="cell-bg" src="images/ladder.svg">
+        <span ng-hide="$ctrl.checkIfLadder((x + 1) + y * 10) || $ctrl.checkIfSnake((x + 1) + y * 10)">{{(x + 1) + y * 10}}</span>
+        <span class="{{player.id}}" ng-repeat="player in $ctrl.getPlayers((x + 1) + y * 10)"><strong>{{player.id}}</strong></span>
+        <span style="color: green;" ng-show="$ctrl.checkIfLadder((x + 1) + y * 10)"><strong>{{$ctrl.checkIfLadder((x + 1) + y * 10).end}}</strong></span>
+        <span style="color: red;" ng-show="$ctrl.checkIfSnake((x + 1) + y * 10)"><strong>{{$ctrl.checkIfSnake((x + 1) + y * 10).end}}</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <th>username</th>
+      <th>pos</th>
+      <th>throws</th>
+      <th>ladders</th>
+      <th>snakes</th>
+      <th>sixes</th>
+    </tr>
+
+    <tr ng-repeat="player in $ctrl.players">
+      <td class="{{player.id}}">{{player.username}}</td>
+      <td>{{player.pos}}</td>
+      <td>{{player.throws}}</td>
+      <td>{{player.ladders}}</td>
+      <td>{{player.snakes}}</td>
+      <td>{{player.sixes}}</td>
+    </tr>
+  </table>
+
+  <div style="font-size: 72px;">{{$ctrl.value}}</div>
+</div>

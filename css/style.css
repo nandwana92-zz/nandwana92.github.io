@@ -1,0 +1,58 @@
+.board-cell {
+  border: 1px solid #3F51B5;
+  height: 60px;
+  width: 60px;
+  padding: 5px;
+  font-size: 20px;
+}
+
+.board-container {
+  border: 2px solid #3F51B5;
+  margin: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+}
+
+.p0 {
+  background-color: orange;
+}
+
+.p1 {
+  background-color: blue;
+}
+
+.p2 {
+  background-color: yellow;
+}
+
+.center-text-horizontally {
+  text-align: center;
+}
+
+.game-type-option {
+  cursor: pointer;
+}
+
+.game-type-option:hover {
+  color: blue;
+}
+
+.selected-game-type {
+  background: blue;
+  color: white;
+}
+
+button {
+  cursor: pointer;
+}
+
+.cell-bg {
+  position: absolute;
+  top: 11px;
+  left: 11px;
+}

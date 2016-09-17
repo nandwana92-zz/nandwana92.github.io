@@ -1,0 +1,29 @@
+<div class="center-text-horizontally">Select Game Type</div>
+<div ng-repeat="option in $ctrl.availableOptions" layout="column" layout-align="start center">
+  <span ng-class="{'selected-game-type': option.id === $ctrl.type, 'game-type-option': option.id !== $ctrl.type}" ng-click="$ctrl.setGameType(option.id)">{{option.name}}</span>
+</div>
+<form ng-show="false" name="myForm">
+  <label for="gameType"> Select Game Type: </label>
+  <select ng-change="$ctrl.clearPlayers()" name="gameType" id="gameType" ng-model="$ctrl.type">
+    <option ng-repeat="option in $ctrl.availableOptions" value="{{option.id}}">{{option.name}}</option>
+  </select>
+</form>
+<div layout layout-align="center start">
+  <form ng-submit="$ctrl.addPlayer($ctrl.username)">
+    <label>
+      <input type="text" ng-model="$ctrl.username">
+    </label>
+    <button ng-disabled="!$ctrl.type || ($ctrl.type === 'single' && $ctrl.players.length === 1)" type="submit">Add</button>
+  </form>
+</div>
+<div layout layout-align="center start">
+  <div>
+    <div ng-repeat="player in $ctrl.players">
+      <div>ID: {{player.id}}</div>
+      <div class="{{player.id}}">Username: {{player.username}}</div>
+    </div>
+  </div>
+</div>
+<div layout layout-align="center start">
+  <button ng-disabled="!$ctrl.players.length" ng-click="$ctrl.startGame()">start</button>
+</div>
