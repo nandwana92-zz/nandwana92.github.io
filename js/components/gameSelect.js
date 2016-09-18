@@ -36,6 +36,19 @@ app.component('gameSelect', {
       self.players.length = 0;
     }
     self.startGame = function() {
+      if (self.type === 'single') {
+          self.players.push({
+          id: 'c',
+          username: 'Computer',
+          pos: 1,
+          throws: 0,
+          ladders: 0,
+          snakes: 0,
+          sixes: 0,
+          offset: self.offsets[self.players.length]
+        });
+      }
+
       $state.go('main.board');
     }
     self.addPlayer = function(username) {

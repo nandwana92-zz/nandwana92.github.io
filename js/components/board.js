@@ -1,13 +1,15 @@
 app.component('board', {
   templateUrl: 'templates/board.html',
   bindings: {
-    players: '='
+    players: '=',
+    type: '='
   },
   controller: function($scope, $state, $interval, $timeout) {
     var self = this;
     var stop;
-    self.activePlayerIndex = 0;
-    self.activePlayerThrows = 0;
+    self.currentPlayer = self.nextPlayer = self.players[0];
+    self.currentPlayerIndex = 0;
+    self.currentPlayerThrows = 0;
     self.diceRolling = false;
     self.playerMoving = false;
     self.showSnakeBg = false;
@@ -16,21 +18,6 @@ app.component('board', {
     self.game = {
       status: 'inProgress',
       winningPlayer: null
-    }
-    if (!self.players.length) {
-      self.players.push({
-        id: 'p1',
-        username: 'usernaam',
-        pos: 1,
-        throws: 0,
-        ladders: 0,
-        snakes: 0,
-        sixes: 0,
-        offset: {
-          x: 8,
-          y: 37
-        }
-      })
     }
     self.ladders = [{
       start: 4,
@@ -82,30 +69,38 @@ app.component('board', {
       start: 99,
       end: 78
     }];
+    self.changePlayer = function() {
+      if (self.diceValue !== 6 || self.currentPlayerThrows >= 3) {
+        if (self.currentPlayerIndex + 1 === self.players.length) {
+          self.nextPlayer = self.players[0];
+          self.currentPlayerIndex = 0;
+        } else {
+          self.nextPlayer = self.players[++self.currentPlayerIndex];
+        }
+        self.currentPlayerThrows = 0;
+      } else {
+        self.currentPlayer.sixes++;
+      }
+      if (self.type === 'single' && self.nextPlayer.id === 'c') {
+        self.rollDice();
+      }
+    }
     self.rollDice = function() {
       self.startDiceAnimation();
+      self.currentPlayerThrows++;
+      self.currentPlayer.throws++;
       $timeout(function() {
-        self.stopDiceAnimation();
-        self.activePlayerThrows++;
-        self.players[self.activePlayerIndex].throws++;
+        self.currentPlayer = self.nextPlayer;
         self.diceValue = Math.floor((Math.random() * 6) + 1);
-        var nextPos = self.getNextPos(self.players[self.activePlayerIndex].pos, self.diceValue);
+        self.stopDiceAnimation();
+        var nextPos = self.getNextPos(self.currentPlayer.pos, self.diceValue);
         if (nextPos === 100) {
           self.game.status = 'complete';
-          self.game.winningPlayer = self.players[self.activePlayerIndex];
-          self.updatePos(100, self.players[self.activePlayerIndex]);
+          self.game.winningPlayer = self.currentPlayer;
+          self.updatePos(100, self.currentPlayer);
           return;
         } else {
-          self.updatePos(nextPos, self.players[self.activePlayerIndex]);
-        }
-        if (self.diceValue !== 6 || self.activePlayerThrows >= 3) {
-          self.activePlayerThrows = 0;
-          self.activePlayerIndex++;
-          if (self.activePlayerIndex === self.players.length) {
-            self.activePlayerIndex = 0;
-          }
-        } else {
-          self.players[self.activePlayerIndex].sixes++;
+          self.updatePos(nextPos, self.currentPlayer);
         }
       }, 1000);
     }
@@ -151,22 +146,28 @@ app.component('board', {
       player.pos = pos;
       self.disableDice();
       var ladder = self.checkIfLadder(pos);
-      if (ladder) {
-        self.showLadderBg = true;
-        self.players[self.activePlayerIndex].ladders++;
-        $timeout(function() {
-          self.updatePos(ladder.end, player);
-          self.showLadderBg = false;
-        }, 1000);
-      }
       var snake = self.checkIfSnake(pos);
-      if (snake) {
-        self.showSnakeBg = true;
-        self.players[self.activePlayerIndex].snakes++;
+      if (snake || ladder) {
+        if (ladder) {
+          self.showLadderBg = true;
+          player.ladders++;
+          $timeout(function() {
+            self.updatePos(ladder.end, player);
+            self.showLadderBg = false;
+          }, 1000);
+        }
+        if (snake) {
+          self.showSnakeBg = true;
+          player.snakes++;
+          $timeout(function() {
+            self.updatePos(snake.end, player);
+            self.showSnakeBg = false;
+          }, 1000);
+        }
+      } else {
         $timeout(function() {
-          self.updatePos(snake.end, player);
-          self.showSnakeBg = false;
-        }, 1000);
+          self.changePlayer();
+        }, 1000)
       }
     }
     self.goToGameSelect = function() {

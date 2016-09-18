@@ -20,6 +20,7 @@
     </div>
   </div>
 </div>
-<div style="padding: 20px;" layout layout-align="center start">
+<div style="padding: 20px;" layout="column" layout-align="start center">
   <button ng-disabled="!$ctrl.players.length" ng-click="$ctrl.startGame()">Start Game</button>
+  <span ng-show="$ctrl.type === 'multiple' && $ctrl.players.length < 2">Please select at least 2 players</span>
 </div>

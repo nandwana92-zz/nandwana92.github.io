@@ -10,6 +10,6 @@ app.config(['$stateProvider', function($stateProvider) {
   });
   $stateProvider.state('main.board', {
     url: '/board',
-    template: '<board players="$ctrl.players"></board>'
+    template: '<board type="$ctrl.type" players="$ctrl.players"></board>'
   });
 }]);

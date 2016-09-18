@@ -14,12 +14,12 @@
   </div>
 </div>
 <div class="header" layout layout-align="start center">
-  <span class="{{$ctrl.players[$ctrl.activePlayerIndex].id}} turn-label">{{$ctrl.players[$ctrl.activePlayerIndex].username}}'s Turn</span>
   <div>
-    <button ng-disabled="$ctrl.diceRolling || $ctrl.playerMoving" ng-click="$ctrl.rollDice()">Roll Dice</button>
+    <button style="margin-right: 10px;" ng-disabled="$ctrl.diceRolling || $ctrl.playerMoving" ng-click="$ctrl.rollDice()">Roll Dice</button>
   </div>
   <img class="dice-img" ng-show="$ctrl.diceRolling" ng-src="{{$ctrl.randomDiceImg}}">
   <img class="dice-img" ng-if="!$ctrl.diceRolling && $ctrl.diceValue" ng-src="{{'images/dice' + $ctrl.diceValue.toString() + '.svg'}}">
+  <span class="{{$ctrl.players[$ctrl.currentPlayerIndex].id}} turn-label">{{$ctrl.players[$ctrl.currentPlayerIndex].username}}'s Turn</span>
   <span style="font-size: 32px;" ng-show="$ctrl.showSnakeBg">Snake :(</span>
   <span style="font-size: 32px;" ng-show="$ctrl.showLadderBg">Ladder!</span>
   <span flex></span>
