@@ -1,40 +1,45 @@
-<button ng-click="$ctrl.rollDice()">roll dice</button>
-<button ng-click="$ctrl.gtgs()">go to game select</button>
-<span>current dice value: {{$ctrl.value}}</span>
-<span id="{{$ctrl.players[$ctrl.activePlayerIndex].id}}">active player: {{$ctrl.players[$ctrl.activePlayerIndex].username}}</span>
-<div layout>
-  <div class="board-container">
+<div ng-show="$ctrl.game.status === 'complete'" class="post-game-overlay">
+  <div style="height: 100%; width: 100%;" layout="column" layout-align="center center">
+    <div>{{$ctrl.game.winningPlayer.username}} Won!</div>
+    <div ng-sortable="{animation: 150, handle: '.stat-card'}" layout layout-wrap>
+      <div class="stat-card" ng-repeat="player in $ctrl.players" layout="column" layout-align="start start">
+        <div class="center-text-horizontally"><strong>{{player.username}}</strong></div>
+        <div>{{player.throws}} Throws</div>
+        <div>{{player.ladders}} ladders climbed</div>
+        <div>{{player.snakes}} snakes bit</div>
+        <div>{{player.sixes}} sixes</div>
+      </div>
+    </div>
+    <button ng-click="$ctrl.goToGameSelect()">Play Another</button>
+  </div>
+</div>
+<div class="header" layout layout-align="start center">
+  <span class="{{$ctrl.players[$ctrl.activePlayerIndex].id}} turn-label">{{$ctrl.players[$ctrl.activePlayerIndex].username}}'s Turn</span>
+  <div>
+    <button ng-disabled="$ctrl.diceRolling || $ctrl.playerMoving" ng-click="$ctrl.rollDice()">Roll Dice</button>
+  </div>
+  <img class="dice-img" ng-show="$ctrl.diceRolling" ng-src="{{$ctrl.randomDiceImg}}">
+  <img class="dice-img" ng-if="!$ctrl.diceRolling && $ctrl.diceValue" ng-src="{{'images/dice' + $ctrl.diceValue.toString() + '.svg'}}">
+  <span style="font-size: 32px;" ng-show="$ctrl.showSnakeBg">Snake :(</span>
+  <span style="font-size: 32px;" ng-show="$ctrl.showLadderBg">Ladder!</span>
+  <span flex></span>
+  <button ng-click="$ctrl.goToGameSelect()">Open Game Select Screen</button>
+</div>
+<div layout layout-align="center center">
+  <div style="position: relative;" class="board-container" ng-class="{'board-snake-bg': $ctrl.showSnakeBg, 'board-ladder-bg': $ctrl.showLadderBg}">
+    <div ng-repeat="player in $ctrl.players" ng-style="$ctrl.getPugPos(player)" class="pug {{player.id}}">
+      <div style="height: 100%;" layout layout-align="center center">
+        {{player.id}}
+      </div>
+    </div>
     <div ng-repeat="(y, item) in $ctrl.getTimes($ctrl.size.r) track by $index" layout>
       <div style="position: relative;" ng-class="{'snake-cell': $ctrl.checkIfSnake((x + 1) + y * 10), 'ladder-cell': $ctrl.checkIfLadder((x + 1) + y * 10)}" class="board-cell" ng-repeat="(x, item) in $ctrl.getTimes($ctrl.size.c) track by $index">
         <img ng-show="$ctrl.checkIfSnake((x + 1) + y * 10)" class="cell-bg" src="images/snake.svg">
         <img ng-show="$ctrl.checkIfLadder((x + 1) + y * 10)" class="cell-bg" src="images/ladder.svg">
         <span ng-hide="$ctrl.checkIfLadder((x + 1) + y * 10) || $ctrl.checkIfSnake((x + 1) + y * 10)">{{(x + 1) + y * 10}}</span>
-        <span class="{{player.id}}" ng-repeat="player in $ctrl.getPlayers((x + 1) + y * 10)"><strong>{{player.id}}</strong></span>
         <span style="color: green;" ng-show="$ctrl.checkIfLadder((x + 1) + y * 10)"><strong>{{$ctrl.checkIfLadder((x + 1) + y * 10).end}}</strong></span>
         <span style="color: red;" ng-show="$ctrl.checkIfSnake((x + 1) + y * 10)"><strong>{{$ctrl.checkIfSnake((x + 1) + y * 10).end}}</strong></span>
       </div>
     </div>
   </div>
-
-  <table>
-    <tr>
-      <th>username</th>
-      <th>pos</th>
-      <th>throws</th>
-      <th>ladders</th>
-      <th>snakes</th>
-      <th>sixes</th>
-    </tr>
-
-    <tr ng-repeat="player in $ctrl.players">
-      <td class="{{player.id}}">{{player.username}}</td>
-      <td>{{player.pos}}</td>
-      <td>{{player.throws}}</td>
-      <td>{{player.ladders}}</td>
-      <td>{{player.snakes}}</td>
-      <td>{{player.sixes}}</td>
-    </tr>
-  </table>
-
-  <div style="font-size: 72px;">{{$ctrl.value}}</div>
 </div>
