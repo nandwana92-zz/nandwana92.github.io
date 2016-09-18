@@ -33,52 +33,54 @@ app.component('board', {
       })
     }
     self.ladders = [{
-      start: 5,
-      end: 100
-    }, {
-      start: 3,
-      end: 99
+      start: 4,
+      end: 14
     }, {
       start: 9,
-      end: 95
+      end: 31
     }, {
-      start: 2,
-      end: 89
+      start: 20,
+      end: 38
     }, {
-      start: 4,
-      end: 99
-    }];
-    self.ladders = [{
-      start: 5,
-      end: 45
+      start: 51,
+      end: 66
     }, {
-      start: 12,
-      end: 15
+      start: 63,
+      end: 81
     }, {
-      start: 22,
-      end: 65
+      start: 71,
+      end: 91
     }, {
-      start: 2,
-      end: 29
+      start: 28,
+      end: 84
     }, {
-      start: 25,
-      end: 99
+      start: 40,
+      end: 59
     }];
     self.snakes = [{
-      start: 9,
-      end: 1
+      start: 17,
+      end: 7
     }, {
-      start: 21,
-      end: 2
+      start: 62,
+      end: 19
     }, {
-      start: 55,
-      end: 12
+      start: 87,
+      end: 24
     }, {
-      start: 21,
-      end: 12
+      start: 54,
+      end: 34
     }, {
-      start: 39,
-      end: 10
+      start: 64,
+      end: 60
+    }, {
+      start: 48,
+      end: 23
+    }, {
+      start: 93,
+      end: 73
+    }, {
+      start: 99,
+      end: 78
     }];
     self.rollDice = function() {
       self.startDiceAnimation();
