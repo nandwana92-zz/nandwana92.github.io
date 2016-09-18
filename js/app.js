@@ -1,7 +1,7 @@
 var app = angular.module('kredx', ['ui.router', 'ng-sortable']);
 app.config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('main', {
-    url: '/main',
+    url: '/snakes-and-ladders',
     template: '<main></main>'
   });
   $stateProvider.state('main.gameSelect', {

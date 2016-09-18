@@ -5,7 +5,7 @@
 <div layout layout-align="center start" style="padding: 20px;">
   <form ng-submit="$ctrl.addPlayer($ctrl.username)">
     <label>
-      <input type="text" ng-model="$ctrl.username">
+      <input required type="text" ng-model="$ctrl.username">
     </label>
     <button ng-disabled="!$ctrl.type || ($ctrl.type === 'single' && $ctrl.players.length === 1) || $ctrl.players.length === 4" type="submit">Add Player</button>
     <span ng-show="$ctrl.players.length === 4">Max 4 Players</span>
