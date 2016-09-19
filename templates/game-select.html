@@ -1,15 +1,15 @@
-<h3 class="center-text-horizontally">Select Game Type</h3>
+<div style="margin: 20px;" class="center-text-horizontally"><strong>Select Game Type</strong></div>
 <div ng-repeat="option in $ctrl.availableOptions" layout="column" layout-align="start center">
   <span class="game-type-option" ng-class="{'selected-game-type': option.id === $ctrl.type}" ng-click="$ctrl.setGameType(option.id)">{{option.name}}</span>
 </div>
-<div layout layout-align="center start" style="padding: 20px;">
-  <form ng-submit="$ctrl.addPlayer($ctrl.username)">
+<div layout="column" layout-align="start center" style="padding: 20px;">
+  <form ng-submit="$ctrl.addPlayer($ctrl.username)" layout layout-align="start center">
     <label>
       <input required type="text" ng-model="$ctrl.username">
     </label>
-    <button ng-disabled="!$ctrl.type || ($ctrl.type === 'single' && $ctrl.players.length === 1) || $ctrl.players.length === 4" type="submit">Add Player</button>
-    <span ng-show="$ctrl.players.length === 4">Max 4 Players</span>
+    <button style="margin-left: 10px;" ng-disabled="!$ctrl.type || ($ctrl.type === 'single' && $ctrl.players.length === 1) || $ctrl.players.length === 4" type="submit">Add Player</button>
   </form>
+  <span ng-show="$ctrl.players.length === 4">Max 4 Players</span>
 </div>
 <div layout layout-align="center start">
   <div>

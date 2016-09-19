@@ -148,3 +148,25 @@ button {
 .player-list-item {
   margin: 20px 0;
 }
+
+@media (max-width: 1024px) {
+  game-select {
+    font-size: 48px;
+  }
+
+  .game-type-option {
+    width: 600px;
+  }
+
+  game-select button {
+    font-size: 42px;
+    padding: 5px 10px;
+  }
+
+  game-select  input {
+    height: 56px;
+    width: 400px;
+    font-size: 48px;
+    border: 1px solid #3F51B5;
+  }
+}
